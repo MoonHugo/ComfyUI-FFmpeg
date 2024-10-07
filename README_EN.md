@@ -32,8 +32,8 @@ Install through ComfyUI-Manager by searching for 'ComfyUI-BiRefNet-Hugo' and ins
 ![](./assets/1.png)
 
 ###### Parameter Description
-**video_path**: The local video path, e.g：`C:\Users\Desktop\222.mp4`
-**output_path**: The path to save the output images, e.g：`C:\Users\Desktop\output`
+**video_path**: The local video path, e.g：`C:\Users\Desktop\222.mp4`<br>
+**output_path**: The path to save the output images, e.g：`C:\Users\Desktop\output`<br>
 **frames_max_width**: This parameter can be used to resize the video. The default value is 0, which means the video will not be resized. If frames_max_width is larger than the actual width of the video, the video will not be enlarged and will retain its original width. If frames_max_width is smaller than the actual width of the video, the video will be scaled down.
 
 ___
@@ -42,11 +42,11 @@ ___
 ![](./assets/2.png)
 
 ###### Parameter Description
-**frame_path**: local image path, e.g:`C:\Users\Desktop\output`
-**fps**: video frame rate, default is`30`
-**video_name**: saved video name, e.g:`222.mp4`
-**output_path**: video save path,e.g:`C:\Users\Desktop\output`
-**audio_path**: video audio path,e.g:`C:\Users\Desktop\222.mp3`
+**frame_path**: local image path, e.g:`C:\Users\Desktop\output`<br>
+**fps**: video frame rate, default is`30`<br>
+**video_name**: saved video name, e.g:`222.mp4`<br>
+**output_path**: video save path,e.g:`C:\Users\Desktop\output`<br>
+**audio_path**: video audio path,e.g:`C:\Users\Desktop\222.mp3`<br>
 ___
 
 ##### AddTextWatermark Node: The function is to add a text watermark to the video.<br>
@@ -54,13 +54,13 @@ ___
 ![](./assets/3.png)
 
 ###### Parameter Description
-**video_path**: local video path,e.g:`C:\Users\Desktop\222.mp4`
-**output_path**: video save path,e.g:`C:\Users\Desktop\output`
-**font_file**: font file: The font file needs to be placed in the`custom_nodes\ComfyUI-FFmpeg\fonts` directory. Not only English fonts, but Chinese fonts can also be used.,e.g:`ComfyUI\custom_nodes\ComfyUI-FFmpeg\fonts\Alibaba-PuHuiTi-Heavy.ttf`
-**font_size**: watermark text size,e.g:`40`
-**font_color**: watermark text color,e.g:`#FFFFFF` or `white`
-**position_x**: watermark text x-coordinate,e.g:`100`
-**position_y**: watermark text y-coordinate,e.g:`100`
+**video_path**: local video path,e.g:`C:\Users\Desktop\222.mp4`<br>
+**output_path**: video save path,e.g:`C:\Users\Desktop\output`<br>
+**font_file**: font file: The font file needs to be placed in the`custom_nodes\ComfyUI-FFmpeg\fonts` directory. Not only English fonts, but Chinese fonts can also be used.,e.g:`ComfyUI\custom_nodes\ComfyUI-FFmpeg\fonts\Alibaba-PuHuiTi-Heavy.ttf`<br>
+**font_size**: watermark text size,e.g:`40`<br>
+**font_color**: watermark text color,e.g:`#FFFFFF` or `white`<br>
+**position_x**: watermark text x-coordinate,e.g:`100`<br>
+**position_y**: watermark text y-coordinate,e.g:`100`<br>
 
 ___
 
@@ -69,12 +69,12 @@ ___
 ![](./assets/4.png)
 
 ###### Parameter Description
-**video_path**: local video path,e.g:`C:\Users\Desktop\222.mp4`
-**output_path**: video save path,e.g:`C:\Users\Desktop\output`
-**watermark_image**: watermark image path,e.g:`C:\Users\Desktop\watermark.png`
-**watermark_img_width**: watermark image width,e.g:`100`
-**position_x**: watermark image x-coordinate in the video,e.g:`100`
-**position_y**: watermark image y-coordinate in the video,e.g:`100`
+**video_path**: local video path,e.g:`C:\Users\Desktop\222.mp4`<br>
+**output_path**: video save path,e.g:`C:\Users\Desktop\output`<br>
+**watermark_image**: watermark image path,e.g:`C:\Users\Desktop\watermark.png`<br>
+**watermark_img_width**: watermark image width,e.g:`100`<br>
+**position_x**: watermark image x-coordinate in the video,e.g:`100`<br>
+**position_y**: watermark image y-coordinate in the video,e.g:`100`<br>
 ___
 
 ## Social Account Homepage
