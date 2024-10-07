@@ -32,25 +32,26 @@ class AddImgWatermark:
 
     def add_img_watermark(self,video_path,output_path,watermark_image,watermark_img_width,position_x,position_y):
         try:
-            video_path = os.path.abspath(video_path).replace("\ufeff", "").strip()
-            output_path = os.path.abspath(output_path).replace("\ufeff", "").strip()
+            
+            video_path = os.path.abspath(video_path).strip()
+            output_path = os.path.abspath(output_path).strip()
             # 视频不存在
             if not video_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv','.rmvb')):
-                raise ValueError("video_path不是视频文件（video_path is not a video file）")
+                raise ValueError("video_path："+video_path+"不是视频文件（video_path:"+video_path+" is not a video file）")
             
             if not os.path.exists(video_path):
-                raise ValueError("video_path不存在（video_path does not exist）")
+                raise ValueError("video_path："+video_path+"不存在（video_path:"+video_path+" does not exist）")
             
             #判断output_path是否是一个目录
             if not os.path.isdir(output_path):
-                raise ValueError("output_path不是目录（output_path is not a directory）")
+                raise ValueError("output_path："+output_path+"不是目录（output_path:"+output_path+" is not a directory）")
             
             # 文件不是图片
             if not watermark_image.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
-                raise ValueError("水印文件不是图片文件（watermark file is not a image file）")
+                raise ValueError("watermark_image不是图片文件（watermark file is not a image file）")
             
             if not os.path.exists(watermark_image):
-                raise ValueError("水印文件不存在（watermark file does not exist）")
+                raise ValueError("watermark_image："+watermark_image+"不存在（watermark_image :"+watermark_image+" does not exist）")
             
             file_name = os.path.basename(video_path)
             file_extension = os.path.splitext(file_name)[1]

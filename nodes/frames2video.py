@@ -36,17 +36,20 @@ class Frames2Video:
     OUTPUT_NODE = True
     CATEGORY = "FFmpeg" 
 
-    def frames2video(self,frame_path,fps,video_name,output_path,audio_path=None):
+    def frames2video(self,frame_path,fps,video_name,output_path,audio_path):
         try:
-            frame_path = os.path.abspath(frame_path).replace("\ufeff", "").strip()
-            output_path = os.path.abspath(output_path).replace("\ufeff", "").strip()
-            audio_path = os.path.abspath(audio_path).replace("\ufeff", "").strip()
+            frame_path = os.path.abspath(frame_path).strip()
+            output_path = os.path.abspath(output_path).strip()
+            if audio_path != "":
+                audio_path = os.path.abspath(audio_path).strip()
+                if not os.path.exists(audio_path):
+                    raise ValueError("audio_path："+audio_path+"不存在（audio_path:"+audio_path+" does not exist）")
             if not os.path.exists(frame_path):
-                raise ValueError("frame_path不存在（frame_path does not exist）")
-            
+                raise ValueError("frame_path："+frame_path+"不存在（frame_path:"+frame_path+" does not exist）")
+                
             #判断output_path是否是一个目录
             if not os.path.isdir(output_path):
-                raise ValueError("output_path不是目录（output_path is not a directory）")
+                raise ValueError("output_path："+output_path+"不是目录（output_path:"+output_path+" is not a directory）")
             output_path =  f"{output_path}\{video_name}.mp4" # 将输出目录和输出文件名合并为一个输出路径
             # 获取输入目录中的所有图像文件
             frame_path = Path(frame_path)
@@ -74,7 +77,7 @@ class Frames2Video:
                 width, height = img.size
                 scale = f'{width}:{height}'
 
-            if audio_path:
+            if audio_path != '':
                 # 有音频文件，构建ffmpeg命令
                 ffmpeg_cmd = [
                     'ffmpeg',
@@ -111,6 +114,7 @@ class Frames2Video:
                     '-preset', 'medium',
                     '-crf', '28',
                     '-pix_fmt', 'yuv420p',
+                    '-shortest',  
                     '-y',
                     str(output_path)
                 ]
