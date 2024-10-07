@@ -38,6 +38,9 @@ class Frames2Video:
 
     def frames2video(self,frame_path,fps,video_name,output_path,audio_path=None):
         try:
+            frame_path = os.path.abspath(frame_path).replace("\ufeff", "").strip()
+            output_path = os.path.abspath(output_path).replace("\ufeff", "").strip()
+            audio_path = os.path.abspath(audio_path).replace("\ufeff", "").strip()
             if not os.path.exists(frame_path):
                 raise ValueError("frame_path不存在（frame_path does not exist）")
             

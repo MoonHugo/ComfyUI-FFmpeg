@@ -25,11 +25,15 @@ class Video2Frames:
   
     def video2frames(self, video_path, output_path, frames_max_width):
         try:
-            # 视频不存在
+            video_path = os.path.abspath(video_path).replace("\ufeff", "").strip()
+            output_path = os.path.abspath(output_path).replace("\ufeff", "").strip()
+             # 提取音频
+            audio_path = os.path.join(output_path, 'audio.mp3')
+             # 视频不存在
             if not video_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv','.rmvb')):
                 raise ValueError("video_path不是视频文件（video_path is not a video file）")
-            
-            if not os.path.exists(video_path):
+            print("视频文件路径："+video_path)
+            if not os.path.isfile(video_path):
                 raise ValueError("video_path不存在（video_path does not exist）")
             
             #判断output_path是否是一个目录
@@ -40,9 +44,6 @@ class Video2Frames:
             if not isinstance(frames_max_width, int):
                 raise ValueError("frames_max_width不是整数（frames_max_width is not an integer）")
             
-            # 提取音频
-            audio_path = os.path.join(output_path, 'audio.mp3')
-            video_path = os.path.abspath(video_path).replace("\ufeff", "").strip()
             audio_cmd = [
                 'ffmpeg', '-i', video_path, 
                 '-q:a', '0', '-map', 'a', '-y', audio_path

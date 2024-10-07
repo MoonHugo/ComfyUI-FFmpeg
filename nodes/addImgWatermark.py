@@ -32,6 +32,8 @@ class AddImgWatermark:
 
     def add_img_watermark(self,video_path,output_path,watermark_image,watermark_img_width,position_x,position_y):
         try:
+            video_path = os.path.abspath(video_path).replace("\ufeff", "").strip()
+            output_path = os.path.abspath(output_path).replace("\ufeff", "").strip()
             # 视频不存在
             if not video_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv','.rmvb')):
                 raise ValueError("video_path不是视频文件（video_path is not a video file）")
