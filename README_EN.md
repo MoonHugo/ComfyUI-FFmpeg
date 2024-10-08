@@ -9,6 +9,10 @@
 
 Encapsulate the commonly used functions of FFmpeg into ComfyUI nodes, making it convenient for users to perform various video processing tasks within ComfyUI.<br>
 
+## Tips
+
+You need to install FFmpeg before using this node, the FFmpeg installation method can refer to [here](https://www.bilibili.com/read/cv28108185/?spm_id_from=333.999.0.0&jump_opus=1)
+
 ## Installation 
 
 #### Method 1:
@@ -32,8 +36,8 @@ Install through ComfyUI-Manager by searching for 'ComfyUI-BiRefNet-Hugo' and ins
 ![](./assets/1.png)
 
 ###### Parameter Description
-**video_path**: The local video path, e.g：`C:\Users\Desktop\222.mp4`<br>
-**output_path**: The path to save the output images, e.g：`C:\Users\Desktop\output`<br>
+**video_path**: The local video path, e.g.：`C:\Users\Desktop\222.mp4`<br>
+**output_path**: The path to save the output images, e.g.：`C:\Users\Desktop\output`<br>
 **frames_max_width**: This parameter can be used to resize the video. The default value is 0, which means the video will not be resized. If frames_max_width is larger than the actual width of the video, the video will not be enlarged and will retain its original width. If frames_max_width is smaller than the actual width of the video, the video will be scaled down.
 
 ___
@@ -42,11 +46,11 @@ ___
 ![](./assets/2.png)
 
 ###### Parameter Description
-**frame_path**: local image path, e.g:`C:\Users\Desktop\output`<br>
+**frame_path**: local image path, e.g.:`C:\Users\Desktop\output`<br>
 **fps**: video frame rate, default is`30`<br>
-**video_name**: saved video name, e.g:`222.mp4`<br>
-**output_path**: video save path,e.g:`C:\Users\Desktop\output`<br>
-**audio_path**: video audio path,e.g:`C:\Users\Desktop\222.mp3`<br>
+**video_name**: saved video name, e.g.:`222.mp4`<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**audio_path**: video audio path,e.g.:`C:\Users\Desktop\222.mp3`<br>
 ___
 
 ##### AddTextWatermark Node: The function is to add a text watermark to the video.<br>
@@ -54,13 +58,13 @@ ___
 ![](./assets/3.png)
 
 ###### Parameter Description
-**video_path**: local video path,e.g:`C:\Users\Desktop\222.mp4`<br>
-**output_path**: video save path,e.g:`C:\Users\Desktop\output`<br>
-**font_file**: font file: The font file needs to be placed in the`custom_nodes\ComfyUI-FFmpeg\fonts` directory. Not only English fonts, but Chinese fonts can also be used.,e.g:`ComfyUI\custom_nodes\ComfyUI-FFmpeg\fonts\Alibaba-PuHuiTi-Heavy.ttf`<br>
-**font_size**: watermark text size,e.g:`40`<br>
-**font_color**: watermark text color,e.g:`#FFFFFF` or `white`<br>
-**position_x**: watermark text x-coordinate,e.g:`100`<br>
-**position_y**: watermark text y-coordinate,e.g:`100`<br>
+**video_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**font_file**: font file: The font file needs to be placed in the`custom_nodes\ComfyUI-FFmpeg\fonts` directory. Not only English fonts, but Chinese fonts can also be used.,e.g.:`ComfyUI\custom_nodes\ComfyUI-FFmpeg\fonts\Alibaba-PuHuiTi-Heavy.ttf`<br>
+**font_size**: watermark text size,e.g.:`40`<br>
+**font_color**: watermark text color,e.g.:`#FFFFFF` or `white`<br>
+**position_x**: watermark text x-coordinate,e.g.:`100`<br>
+**position_y**: watermark text y-coordinate,e.g.:`100`<br>
 
 ___
 
@@ -69,13 +73,33 @@ ___
 ![](./assets/4.png)
 
 ###### Parameter Description
-**video_path**: local video path,e.g:`C:\Users\Desktop\222.mp4`<br>
-**output_path**: video save path,e.g:`C:\Users\Desktop\output`<br>
-**watermark_image**: watermark image path,e.g:`C:\Users\Desktop\watermark.png`<br>
-**watermark_img_width**: watermark image width,e.g:`100`<br>
-**position_x**: watermark image x-coordinate in the video,e.g:`100`<br>
-**position_y**: watermark image y-coordinate in the video,e.g:`100`<br>
+**video_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**watermark_image**: watermark image path,e.g.:`C:\Users\Desktop\watermark.png`<br>
+**watermark_img_width**: watermark image width,e.g.:`100`<br>
+**position_x**: watermark image x-coordinate in the video,e.g.:`100`<br>
+**position_y**: watermark image y-coordinate in the video,e.g.:`100`<br>
 ___
+
+##### VideoFlip Node: The function is to flip the video<br>
+
+![](./assets/5.png)
+
+###### Parameter Description
+**video_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**flip_type**: Flip type, e.g. `horizontal` horizontal flip, `vertical` vertical flip, `both` horizontal plus vertical flip<br>
+
+___
+
+##### ExtractAudio Node：The purpose is to extract the audio from the video<br>
+
+![](./assets/6.png)
+
+###### Parameter Description
+**video_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**audio_format**: Save audio formats, including **.m4a** , **.mp3** , **.wav** , **.aac** , **.flac** , **.wma** , **.ogg** , **.ac3** , **.amr** , **.aiff** , **.opus** , **.m4b** , **.caf** , **.dts** etc. <br>
 
 ## Social Account Homepage
 - Bilibili：[My BILIBILI Homepage](https://space.bilibili.com/1303099255)
@@ -83,8 +107,6 @@ ___
 ## Acknowledgments
 
 Thanks to all the contributors of the FFmpeg repository. [FFmpeg/FFmpeg](https://github.com/FFmpeg/FFmpeg)
-
-Some of the code references [Eden-yidun/ComfyUI-EdenVideoTool](https://github.com/Eden-yidun/ComfyUI-EdenVideoTool) Thanks!
 
 ## Star history
 

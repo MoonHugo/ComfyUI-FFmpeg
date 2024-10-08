@@ -9,6 +9,10 @@
 
 把FFmpeg常用功能封装成ComfyUI节点，方便用户可以在ComfyUI上也可以进行各种视频处理。<br>
 
+## 说明
+
+使用该节点之前需要先安装FFmpeg，FFmpeg安装方法可以参考 [这里](https://www.bilibili.com/read/cv28108185/?spm_id_from=333.999.0.0&jump_opus=1)
+
 ## 安装 
 
 #### 方法1:
@@ -77,14 +81,32 @@ ___
 **position_y**: 水印图片在视频中的y坐标，比如：`100`<br>
 ___
 
+##### VideoFlip节点: 作用是翻转视频<br>
+
+![](./assets/5.png)
+
+###### 参数说明
+**video_path**: 本地视频路径，比如：`C:\Users\Desktop\222.mp4`<br>
+**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
+**flip_type**: 翻转类型，比如：`horizontal`水平翻转，`vertical`垂直翻转，`both`水平加垂直翻转<br>
+
+___
+
+##### ExtractAudio节点：作用是提取视频中的音频<br>
+
+![](./assets/6.png)
+
+###### 参数说明
+**video_path**: 本地视频路径，比如：`C:\Users\Desktop\222.mp4`<br>
+**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
+**audio_format**: 保存音频格式，包括 **.m4a**，**.mp3**，**.wav**，**.aac**，**.flac**，**.wma**，**.ogg**，**.ac3**，**.amr**，**.aiff**，**.opus**，**.m4b**，**.caf**，**.dts** 等等。<br>
+___
 ## 社交账号
 - Bilibili：[我的B站主页](https://space.bilibili.com/1303099255)
 
 ## 感谢
 
 感谢FFmpeg仓库的所有作者 [FFmpeg/FFmpeg](https://github.com/FFmpeg/FFmpeg)
-
-部分代码参考了 [Eden-yidun/ComfyUI-EdenVideoTool](https://github.com/Eden-yidun/ComfyUI-EdenVideoTool) 感谢！
 
 ## 关注历史
 

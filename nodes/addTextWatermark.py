@@ -32,7 +32,7 @@ class AddTextWatermark:
     RETURN_NAMES = ("video_path","output_path",)
     FUNCTION = "add_text_watermark" 
     OUTPUT_NODE = True
-    CATEGORY = "FFmpeg" 
+    CATEGORY = "🔥FFmpeg" 
 
     def add_text_watermark(self,video_path,output_path,font_file,font_size,font_color,text,position_x,position_y):
         try:

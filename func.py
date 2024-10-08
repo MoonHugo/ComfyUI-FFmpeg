@@ -3,6 +3,11 @@ from PIL import Image
 import torch
 import subprocess
 import json
+import re
+
+def generate_template_string(filename):
+    match = re.search(r'\d+', filename)
+    return re.sub(r'\d+', lambda x: f'%0{len(x.group())}d', filename) if match else filename
 
 def tensor2pil(image):
     return Image.fromarray(np.clip(255. * image.cpu().numpy().squeeze(), 0, 255).astype(np.uint8))

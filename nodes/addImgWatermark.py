@@ -28,7 +28,7 @@ class AddImgWatermark:
     RETURN_NAMES = ("video_complete_path",)
     FUNCTION = "add_img_watermark" 
     OUTPUT_NODE = True
-    CATEGORY = "FFmpeg" 
+    CATEGORY = "🔥FFmpeg" 
 
     def add_img_watermark(self,video_path,output_path,watermark_image,watermark_img_width,position_x,position_y):
         try:

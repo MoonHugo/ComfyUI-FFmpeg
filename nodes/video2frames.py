@@ -21,7 +21,7 @@ class Video2Frames:
     RETURN_NAMES = ("frame_path", "fps", "audio_path", "total_frames","output_path")
     FUNCTION = "video2frames"
     OUTPUT_NODE = True
-    CATEGORY = "FFmpeg"
+    CATEGORY = "🔥FFmpeg"
   
     def video2frames(self, video_path, output_path, frames_max_width):
         try:
@@ -99,23 +99,22 @@ class Video2Frames:
             else:
                 out_width = width
                 out_height = height
-                
+            
             command = [
                 'ffmpeg', '-i', video_path,  # 输入视频路径
                 '-vf', f'scale={out_width}:{out_height}',  # 使用scale滤镜缩放帧
-                os.path.join(frame_path, 'frame_%06d.png')  # 输出帧路径
+                os.path.join(frame_path, 'frame_%08d.png')  # 输出帧路径
             ]
-            
             # 执行命令并检查错误
-            if subprocess.run(command).returncode != 0:
-                print("生成序列帧时出错，请检查输入文件和路径。")
-
-            # 打印信息
-            print(f"序列帧图片输出路径: {frame_path}")
-            print(f"音频输出路径: {audio_path}")   
-            print(f"总帧数: {total_frames}")
-            print(f"帧率: {fps}")
-            print(f"输出路径: {output_path}")
+            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            # 检查返回码
+            if result.returncode != 0:
+                # 如果有错误，输出错误信息
+                 print(f"Error: {result.stderr.decode('utf-8')}")
+                 raise ValueError(f"Error: {result.stderr.decode('utf-8')}")
+            else:
+                # 输出标准输出信息
+                print(result.stdout)
 
             return (frame_path, fps, audio_path, total_frames,output_path)
         except Exception as e:
