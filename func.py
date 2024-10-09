@@ -4,6 +4,64 @@ import torch
 import subprocess
 import json
 import re
+import os
+import shutil
+from concurrent.futures import ThreadPoolExecutor,as_completed
+
+def copy_image(image_path, destination_directory):
+    try:
+        # 获取图片文件名
+        image_name = os.path.basename(image_path)
+        # 构建目标路径
+        destination_path = os.path.join(destination_directory, image_name)
+        # 检查目标路径是否已有相同文件，避免重复复制
+        if not os.path.exists(destination_path):
+            shutil.copy(image_path, destination_path)
+        return destination_path
+    except Exception as e:
+        print(f"Error copying image {image_path}: {e}")
+        return None
+
+def copy_images_to_directory(image_paths, destination_directory):
+    # 如果目标目录不存在，创建它
+    if not os.path.exists(destination_directory):
+        os.makedirs(destination_directory)
+
+    # 使用字典来保持原始索引与路径的对应关系
+    index_to_path = {i: image_path for i, image_path in enumerate(image_paths)}
+    copied_paths = [None] * len(image_paths)
+
+    # 使用多线程并行复制图片
+    with ThreadPoolExecutor() as executor:
+        # 提交所有任务
+        futures = {executor.submit(copy_image, image_path, destination_directory): i for i, image_path in index_to_path.items()}
+        
+        # 等待所有任务完成并按顺序存储结果
+        for future in as_completed(futures):
+            index = futures[future]
+            result = future.result()
+            if result is not None:
+                copied_paths[index] = result
+
+    # 返回按原始顺序排列的新路径
+    return [path for path in copied_paths if path is not None]
+
+
+def get_image_paths_from_directory(directory, start_index, length):
+    # 获取目录下所有文件，并按照文件名排序
+    files = sorted(os.listdir(directory))
+    
+    # 过滤掉非图片文件（这里只检查常见图片格式）
+    image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff'}
+    image_files = [f for f in files if os.path.splitext(f)[1].lower() in image_extensions]
+    
+    # 获取从start_index开始的length个图片路径
+    selected_images = image_files[start_index:start_index + length]
+    
+    # 返回完整路径列表
+    image_paths = [os.path.join(directory, image_file) for image_file in selected_images]
+    
+    return image_paths
 
 def generate_template_string(filename):
     match = re.search(r'\d+', filename)

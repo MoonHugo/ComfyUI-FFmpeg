@@ -21,7 +21,7 @@ class Frames2Video:
                     "display": "number",
                 }),
                 "video_name": ("STRING", {"default": "new_video"}),
-                "output_path": ("STRING", {"default": "./output"}),
+                "output_path": ("STRING", {"default": "C:/Users/Desktop/output"}),
                 "device":(["CPU","GPU"],{"default": "CPU",}),
             },
             "optional":{
