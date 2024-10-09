@@ -20,8 +20,8 @@ class ImageCopy:
             },
         }
 
-    RETURN_TYPES = ("LIST",)
-    RETURN_NAMES = ("image_paths",)
+    RETURN_TYPES = ("LIST","INT","STRING")
+    RETURN_NAMES = ("image_paths","image_length","output_path")
     FUNCTION = "image_copy"
     OUTPUT_NODE = True
     CATEGORY = "🔥FFmpeg/auxiliary tool"
@@ -29,6 +29,6 @@ class ImageCopy:
     def image_copy(self, image_paths, output_path):
         try:
             image_output_path = copy_images_to_directory(image_paths,output_path)
-            return (image_output_path,)
+            return (image_output_path,len(image_output_path),output_path)
         except Exception as e:
             raise ValueError(e)
