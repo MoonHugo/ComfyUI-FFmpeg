@@ -7,6 +7,10 @@ from .nodes.extractAudio import *
 from .nodes.loadImageFromDir import *
 from .nodes.imageCopy import *
 from .nodes.imagePath2Tensor import *
+from .nodes.mergingVideo import *
+from .nodes.stitchingVideo import *
+from .nodes.multiCuttingVideo import *
+from .nodes.singleCuttingVideo import *
 
 NODE_CLASS_MAPPINGS = {
     "Video2Frames": Video2Frames,
@@ -18,6 +22,10 @@ NODE_CLASS_MAPPINGS = {
     "LoadImageFromDir": LoadImageFromDir,
     "ImageCopy": ImageCopy,
     "ImagePath2Tensor": ImagePath2Tensor,
+    "MergingVideo": MergingVideo,
+    "StitchingVideo": StitchingVideo,
+    "MultiCuttingVideo": MultiCuttingVideo,
+    "SingleCuttingVideo": SingleCuttingVideo,
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
@@ -31,4 +39,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadImageFromDir": "🔥LoadImageFromDir",
     "ImageCopy": "🔥ImageCopy",
     "ImagePath2Tensor": "🔥ImagePath2Tensor",
+    "MergingVideo": "🔥MergingVideo",
+    "StitchingVideo": "🔥StitchingVideo",
+    "MultiCuttingVideo": "🔥MultiCuttingVideo",
+    "SingleCuttingVideo": "🔥SingleCuttingVideo",
 }

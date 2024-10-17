@@ -1,6 +1,6 @@
 import os
-import time
 import subprocess
+from ..func import video_type
 
 class ExtractAudio:
     def __init__(self):
@@ -17,7 +17,7 @@ class ExtractAudio:
         }
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("video_complete_path",)
+    RETURN_NAMES = ("audio_complete_path",)
     FUNCTION = "extract_audio"
     OUTPUT_NODE = True
     CATEGORY = "🔥FFmpeg"
@@ -27,7 +27,7 @@ class ExtractAudio:
             video_path = os.path.abspath(video_path).strip()
             output_path = os.path.abspath(output_path).strip()
              # 视频不存在
-            if not video_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv','.rmvb')):
+            if not video_path.lower().endswith(video_type()):
                 raise ValueError("video_path："+video_path+"不是视频文件（video_path:"+video_path+" is not a video file）")
             if not os.path.isfile(video_path):
                 raise ValueError("video_path："+video_path+"不存在（video_path:"+video_path+" does not exist）")

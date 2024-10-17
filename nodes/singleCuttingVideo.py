@@ -1,8 +1,9 @@
 import os
 import subprocess
-from ..func import set_file_name,video_type
+from datetime import datetime
+from ..func import video_type,set_file_name,validate_time_format
 
-class VideoFlip:
+class SingleCuttingVideo:
     def __init__(self):
         pass
 
@@ -12,17 +13,19 @@ class VideoFlip:
             "required": { 
                 "video_path": ("STRING", {"default":"C:/Users/Desktop/video.mp4",}),
                 "output_path": ("STRING", {"default":"C:/Users/Desktop/output",}),
-                "flip_type": (["horizontal","vertical","both"], {"default":"horizontal",}),
+                "start_time": ("STRING", {"default":"00:00:00",}),
+                "end_time": ("STRING", {"default":"00:00:10",}),
             },
         }
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("video_complete_path",)
-    FUNCTION = "video_flip"
+    RETURN_NAMES = ("cutting_video_single",)
+    FUNCTION = "single_cutting_video"
     OUTPUT_NODE = True
     CATEGORY = "🔥FFmpeg"
   
-    def video_flip(self, video_path, output_path, flip_type):
+    # 视频切割,根据关键帧切割，所以时间不能太短，不能保证每一段视频都有关键帧，所以每一段时长不一定是segment_time，只是最接近的
+    def single_cutting_video(self, video_path, output_path,start_time,end_time):
         try:
             video_path = os.path.abspath(video_path).strip()
             output_path = os.path.abspath(output_path).strip()
@@ -36,19 +39,23 @@ class VideoFlip:
             if not os.path.isdir(output_path):
                 raise ValueError("output_path："+output_path+"不是目录（output_path:"+output_path+" is not a directory）")
             
-            file_name = set_file_name(video_path)
+            if not validate_time_format(start_time) or not validate_time_format(end_time):
+                raise ValueError("start_time或者end_time时间格式不对（start_time or end_time is not in time format）")
             
+            time_format = "%H:%M:%S"
+            start_dt = datetime.strptime(start_time, time_format)
+            end_dt = datetime.strptime(end_time, time_format)
+            
+            if start_dt >= end_dt:
+                raise ValueError("start_time必须小于end_time（start_time must be less than end_time）")
+            
+            file_name = set_file_name(video_path)
             output_path = os.path.join(output_path, file_name)
-            flip = {
-                'horizontal': 'hflip',
-                'vertical': 'vflip',
-                'both': 'hflip,vflip',
-            }.get(flip_type, 'horizontal')  # 默认为水平翻转
-
+            #ffmpeg -i input.mp4 -ss START_TIME -to END_TIME -c copy output.mp4
             command = [
                 'ffmpeg', '-i', video_path,  # 输入视频路径
-                '-vf', flip,  # 使用scale滤镜缩放帧
-                output_path,
+                '-ss', start_time,'-to', end_time,
+                '-c','copy',output_path
             ]
             
             # 执行命令并检查错误

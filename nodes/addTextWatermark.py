@@ -1,7 +1,7 @@
 import os
 import subprocess
 import folder_paths
-import time
+from ..func import set_file_name,video_type
 
 current_path = os.path.abspath(__file__)
 font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.normpath(__file__))), 'fonts')
@@ -39,7 +39,7 @@ class AddTextWatermark:
             video_path = os.path.abspath(video_path).strip()
             output_path = os.path.abspath(output_path).strip()
              # 视频不存在
-            if not video_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv','.rmvb')):
+            if not video_path.lower().endswith(video_type()):
                 raise ValueError("video_path："+video_path+"不是视频文件（video_path:"+video_path+" is not a video file）")
             
             if not os.path.exists(video_path):
@@ -49,10 +49,7 @@ class AddTextWatermark:
             if not os.path.isdir(output_path):
                 raise ValueError("output_path："+output_path+"不是目录（output_path:"+output_path+" is not a directory）")
             
-            file_name = os.path.basename(video_path)
-            file_extension = os.path.splitext(file_name)[1]
-            #文件名根据年月日时分秒来命名
-            file_name = time.strftime("%Y%m%d%H%M%S", time.localtime()) + file_extension
+            file_name = set_file_name(video_path)
             output_path = os.path.join(output_path, file_name)
             
             # 替换为双斜杠

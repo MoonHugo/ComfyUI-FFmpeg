@@ -6,6 +6,7 @@ import json
 import re
 import os
 import shutil
+import time
 from concurrent.futures import ThreadPoolExecutor,as_completed
 
 def copy_image(image_path, destination_directory):
@@ -109,3 +110,30 @@ def get_image_size(image_path):
         # 获取图像的宽度和高度
         width, height = img.size
         return width, height
+    
+def has_audio(video_path):
+    cmd = [
+        'ffprobe', 
+        '-v', 'error', 
+        '-select_streams', 'a:0', 
+        '-show_entries', 'stream=codec_type', 
+        '-of', 'default=noprint_wrappers=1:nokey=1', 
+        video_path
+    ]
+    
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return result.stdout.decode().strip() == 'audio'
+
+def set_file_name(video_path):
+    file_name = os.path.basename(video_path)
+    file_extension = os.path.splitext(file_name)[1]
+    #文件名根据年月日时分秒来命名
+    file_name = time.strftime("%Y%m%d%H%M%S", time.localtime()) + file_extension
+    return file_name
+
+def video_type():
+    return ('.mp4', '.avi', '.mov', '.mkv','.rmvb','.wmv','.flv')
+
+def validate_time_format(time_str):
+    pattern = r'^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|\d{1,2})$'
+    return bool(re.match(pattern, time_str))

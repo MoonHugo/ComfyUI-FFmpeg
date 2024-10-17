@@ -1,8 +1,8 @@
 import os
 import subprocess
-from ..func import set_file_name,video_type
+from ..func import video_type
 
-class VideoFlip:
+class MultiCuttingVideo:
     def __init__(self):
         pass
 
@@ -12,17 +12,18 @@ class VideoFlip:
             "required": { 
                 "video_path": ("STRING", {"default":"C:/Users/Desktop/video.mp4",}),
                 "output_path": ("STRING", {"default":"C:/Users/Desktop/output",}),
-                "flip_type": (["horizontal","vertical","both"], {"default":"horizontal",}),
+                "segment_time": ("INT",{"default":10,"min":1,}),
             },
         }
 
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("video_complete_path",)
-    FUNCTION = "video_flip"
+    FUNCTION = "multi_cutting_video"
     OUTPUT_NODE = True
     CATEGORY = "🔥FFmpeg"
   
-    def video_flip(self, video_path, output_path, flip_type):
+    # 视频切割,根据关键帧切割，所以时间不能太短，不能保证每一段视频都有关键帧，所以每一段时长不一定是segment_time，只是最接近的
+    def multi_cutting_video(self, video_path, output_path,segment_time):
         try:
             video_path = os.path.abspath(video_path).strip()
             output_path = os.path.abspath(output_path).strip()
@@ -36,19 +37,16 @@ class VideoFlip:
             if not os.path.isdir(output_path):
                 raise ValueError("output_path："+output_path+"不是目录（output_path:"+output_path+" is not a directory）")
             
-            file_name = set_file_name(video_path)
+            file_full_name = os.path.basename(video_path)
+            file_name = os.path.splitext(file_full_name)[0]
+            file_extension = os.path.splitext(file_full_name)[1]
             
-            output_path = os.path.join(output_path, file_name)
-            flip = {
-                'horizontal': 'hflip',
-                'vertical': 'vflip',
-                'both': 'hflip,vflip',
-            }.get(flip_type, 'horizontal')  # 默认为水平翻转
-
+            #ffmpeg -i input.mp4 -f segment -segment_time 30 -c copy output%03d.mp4
+            
             command = [
                 'ffmpeg', '-i', video_path,  # 输入视频路径
-                '-vf', flip,  # 使用scale滤镜缩放帧
-                output_path,
+                '-f', 'segment','-reset_timestamps','1',"-segment_time",str(segment_time),  # 使用scale滤镜缩放帧
+                '-c','copy',output_path+os.sep+file_name+"_%08d"+file_extension,  # 输出视频路径
             ]
             
             # 执行命令并检查错误

@@ -98,9 +98,61 @@ ___
 
 ###### 参数说明
 **video_path**: 本地视频路径，比如：`C:\Users\Desktop\222.mp4`<br>
-**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
+**output_path**: 音频保存路径，比如：`C:\Users\Desktop\output`<br>
 **audio_format**: 保存音频格式，包括 **.m4a**，**.mp3**，**.wav**，**.aac**，**.flac**，**.wma**，**.ogg**，**.ac3**，**.amr**，**.aiff**，**.opus**，**.m4b**，**.caf**，**.dts** 等等。<br>
 ___
+
+##### MergingVideo节点: 作用是合并两个视频，比如把两个一小时的视频合并成一个时长为2小时的视频<br>
+
+![](./assets/7.png)
+
+###### 参数说明
+**video1_path**: 视频路径，比如：`C:\Users\Desktop\111.mp4`<br>
+**video2_path**: 视频路径，比如：`C:\Users\Desktop\222.mp4`<br>
+**device**: 分为CPU和GPU，如果你用CPU合并两个视频出错的话，可以尝试用GPU。<br>
+**resolution_reference**: 合并后的视频尺寸是多少，可以参考第一个视频或者第二个视频，即video1或者video2。<br>
+**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
+
+___
+
+##### StitchingVideo节点: 作用是拼接两个视频，分成水平拼接和垂直拼接两种拼接方式<br>
+
+![](./assets/8.png)
+
+###### 参数说明
+**video1_path**: 视频路径，比如：`C:\Users\Desktop\111.mp4`<br>
+**video2_path**: 视频路径，比如：`C:\Users\Desktop\222.mp4`<br>
+**device**: 分为CPU和GPU，如果你用CPU拼接两个视频出错的话，可以尝试用GPU。<br>
+**use_audio**: 拼接后的视频使用哪个视频的音频，可以选择第一个视频的音频或者第二个视频的音频，即video1或者video2。<br>
+**stitching_type**: 拼接视频方式，分为水平拼接（horizontal）和垂直拼接（vertical）两种方式。<br>
+**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
+
+___
+
+##### MultiCuttingVideo节点: 作用是把一个视频切割成若干个视频<br>
+
+![](./assets/9.png)
+
+###### 参数说明
+**video_path**: 视频路径，比如：`C:\Users\Desktop\111.mp4`<br>
+**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
+**segment_time**: 切割的每个视频长度，单位为秒，需要注意的是，它是根据关键帧切割视频的，所以时间不能太短。因为不能保证每一段视频都有关键帧，所以每一段视频时长不一定都一样，只是最接近的。<br>
+
+___
+
+##### SingleCuttingVideo节点: 作用是切割指定视频中某个时间段的视频<br>
+
+![](./assets/10.png)
+
+###### 参数说明
+**video_path**: 视频路径，比如：`C:\Users\Desktop\111.mp4`<br>
+**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
+**start_time**: 设置切割的开始时间点，设置为00:00:10的话就表示从视频中的第10秒开始切割。<br>
+**end_time**: 设置切割的结束时间点，设置为00:05:00，表示切割到视频中的第5分钟为止。<br>
+
+___
+
+
 ## 社交账号
 - Bilibili：[我的B站主页](https://space.bilibili.com/1303099255)
 

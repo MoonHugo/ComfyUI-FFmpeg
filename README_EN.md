@@ -98,8 +98,58 @@ ___
 
 ###### Parameter Description
 **video_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
-**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**output_path**: audio save path,e.g.:`C:\Users\Desktop\output`<br>
 **audio_format**: Save audio formats, including **.m4a** , **.mp3** , **.wav** , **.aac** , **.flac** , **.wma** , **.ogg** , **.ac3** , **.amr** , **.aiff** , **.opus** , **.m4b** , **.caf** , **.dts** etc. <br>
+
+___
+
+##### MergingVideo Node: The purpose is to merge two videos, for example, to combine two one-hour videos into a single two-hour video.<br>
+
+![](./assets/7.png)
+
+###### Parameter Description
+**video1_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
+**video2_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
+**device**: There are two options: CPU and GPU,if you encounter an error while merging two videos using the CPU option, you can try using the GPU instead.<br>
+**resolution_reference**: What is the size of the merged video? You can refer to either the first video or the second video, that is, video1 or video2.<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+
+___
+
+##### StitchingVideo Node: The purpose is to stitching two videos, which can be done in two ways: horizontal stitching and vertical stitching.<br>
+
+![](./assets/8.png)
+
+###### Parameter Description
+**video1_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
+**video2_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
+**device**: There are two options: CPU and GPU, if you encounter an error while stitching two videos using the CPU, you can try using the GPU instead.<br>
+**use_audio**: Which audio will be used in the stitched video? You can choose the audio from either the first video or the second video, that is, from video1 or video2.<br>
+**stitching_type**: The methods for stitching videos are divided into two types: horizontal stitching and vertical stitching.<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+
+___
+
+##### MultiCuttingVideo Node: The purpose is to split one video into several smaller videos.<br>
+
+![](./assets/9.png)
+
+###### Parameter Description
+**video_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**segment_time**: The length of each cut video is measured in seconds. It’s important to note that the video is cut based on keyframes, so the duration cannot be too short. Since there is no guarantee that each segment of the video will have a keyframe, the duration of each segment may not be the same, but it will be the closest possible.<br>
+
+___
+
+##### SingleCuttingVideo Node: The purpose is to cut a specific time segment from a designated video.<br>
+
+![](./assets/10.png)
+
+###### Parameter Description
+**video_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+**start_time**: Set the start time for the cut; for example, setting it to 00:00:10 means cutting from the 10th second of the video.<br>
+**end_time**: Set the end time for the cut; for example, setting it to 00:05:00 means cutting until the 5th minute of the video.<br>
 
 ## Social Account Homepage
 - Bilibili：[My BILIBILI Homepage](https://space.bilibili.com/1303099255)

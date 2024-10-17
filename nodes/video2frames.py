@@ -2,6 +2,7 @@ import json
 import math
 import os
 import subprocess
+from ..func import video_type
 
 class Video2Frames:
     def __init__(self):
@@ -30,7 +31,7 @@ class Video2Frames:
              # 提取音频
             audio_path = os.path.join(output_path, 'audio.mp3')
              # 视频不存在
-            if not video_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv','.rmvb')):
+            if not video_path.lower().endswith(video_type()):
                 raise ValueError("video_path："+video_path+"不是视频文件（video_path:"+video_path+" is not a video file）")
             print("视频文件路径："+video_path)
             if not os.path.isfile(video_path):
