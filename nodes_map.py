@@ -7,7 +7,8 @@ from .nodes.extractAudio import *
 from .nodes.loadImageFromDir import *
 from .nodes.imageCopy import *
 from .nodes.imagePath2Tensor import *
-from .nodes.mergingVideo import *
+from .nodes.mergingVideoByTwo import *
+from .nodes.mergingVideoByPlenty import *
 from .nodes.stitchingVideo import *
 from .nodes.multiCuttingVideo import *
 from .nodes.singleCuttingVideo import *
@@ -22,7 +23,8 @@ NODE_CLASS_MAPPINGS = {
     "LoadImageFromDir": LoadImageFromDir,
     "ImageCopy": ImageCopy,
     "ImagePath2Tensor": ImagePath2Tensor,
-    "MergingVideo": MergingVideo,
+    "MergingVideoByTwo": MergingVideoByTwo,
+    "MergingVideoByPlenty": MergingVideoByPlenty,
     "StitchingVideo": StitchingVideo,
     "MultiCuttingVideo": MultiCuttingVideo,
     "SingleCuttingVideo": SingleCuttingVideo,
@@ -39,7 +41,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadImageFromDir": "🔥LoadImageFromDir",
     "ImageCopy": "🔥ImageCopy",
     "ImagePath2Tensor": "🔥ImagePath2Tensor",
-    "MergingVideo": "🔥MergingVideo",
+    "MergingVideoByTwo": "🔥MergingVideoByTwo",
+    "MergingVideoByPlenty": "🔥MergingVideoByPlenty",
     "StitchingVideo": "🔥StitchingVideo",
     "MultiCuttingVideo": "🔥MultiCuttingVideo",
     "SingleCuttingVideo": "🔥SingleCuttingVideo",

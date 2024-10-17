@@ -103,7 +103,7 @@ ___
 
 ___
 
-##### MergingVideo Node: The purpose is to merge two videos, for example, to combine two one-hour videos into a single two-hour video.<br>
+##### MergingVideoByTwo Node: The purpose is to merge two videos, for example, to combine two one-hour videos into a single two-hour video.<br>
 
 ![](./assets/7.png)
 
@@ -112,6 +112,16 @@ ___
 **video2_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
 **device**: There are two options: CPU and GPU,if you encounter an error while merging two videos using the CPU option, you can try using the GPU instead.<br>
 **resolution_reference**: What is the size of the merged video? You can refer to either the first video or the second video, that is, video1 or video2.<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+
+___
+
+##### MergingVideoByPlenty Node: The purpose is to merge multiple short videos that have the same encoding format, resolution, and frame rate into a longer video.<br>
+
+![](./assets/11.png)
+
+###### Parameter Description
+**video_path**: local video path,e.g.:`C:\Users\Desktop\111`,All videos in the specified path must have the same encoding format, frame rate, and resolution.<br>
 **output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
 
 ___

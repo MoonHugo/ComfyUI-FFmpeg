@@ -7,6 +7,7 @@ import re
 import os
 import shutil
 import time
+import glob
 from concurrent.futures import ThreadPoolExecutor,as_completed
 
 def copy_image(image_path, destination_directory):
@@ -137,3 +138,12 @@ def video_type():
 def validate_time_format(time_str):
     pattern = r'^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|\d{1,2})$'
     return bool(re.match(pattern, time_str))
+
+def get_video_files(directory):
+    video_extensions = ['*.mp4', '*.avi', '*.mov', '*.mkv','*.rmvb', '*.wmv', '*.flv']
+    video_files = []
+    for ext in video_extensions:
+        video_files.extend(glob.glob(os.path.join(directory, ext)))
+    # 排序文件名
+    video_files.sort()
+    return video_files

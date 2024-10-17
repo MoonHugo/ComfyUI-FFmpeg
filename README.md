@@ -102,7 +102,7 @@ ___
 **audio_format**: 保存音频格式，包括 **.m4a**，**.mp3**，**.wav**，**.aac**，**.flac**，**.wma**，**.ogg**，**.ac3**，**.amr**，**.aiff**，**.opus**，**.m4b**，**.caf**，**.dts** 等等。<br>
 ___
 
-##### MergingVideo节点: 作用是合并两个视频，比如把两个一小时的视频合并成一个时长为2小时的视频<br>
+##### MergingVideoByTwo节点: 作用是合并两个视频，比如把两个一小时的视频合并成一个时长为2小时的视频<br>
 
 ![](./assets/7.png)
 
@@ -113,6 +113,15 @@ ___
 **resolution_reference**: 合并后的视频尺寸是多少，可以参考第一个视频或者第二个视频，即video1或者video2。<br>
 **output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
 
+___
+
+##### MergingVideoByPlenty节点: 作用是把多个编码格式、分辨率、帧率都一样的短视频合并成长视频<br>
+
+![](./assets/11.png)
+
+###### 参数说明
+**video_path**: 视频路径，比如：`C:\Users\Desktop\111`，要求该路径下所有视频的编码格式、帧率以及分辨率一样。<br>
+**output_path**: 视频保存路径，比如：`C:\Users\Desktop\output`<br>
 ___
 
 ##### StitchingVideo节点: 作用是拼接两个视频，分成水平拼接和垂直拼接两种拼接方式<br>

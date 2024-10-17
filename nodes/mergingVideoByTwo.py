@@ -5,7 +5,7 @@ import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-class MergingVideo:
+class MergingVideoByTwo:
     def __init__(self):
         pass
 
@@ -23,11 +23,11 @@ class MergingVideo:
 
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("video_complete_path",)
-    FUNCTION = "merging_video"
+    FUNCTION = "merging_video_by_two"
     OUTPUT_NODE = True
     CATEGORY = "🔥FFmpeg"
   
-    def merging_video(self, video1_path, video2_path,device,resolution_reference,output_path):
+    def merging_video_by_two(self, video1_path, video2_path,device,resolution_reference,output_path):
         try:
             video1_path = os.path.abspath(video1_path).strip()
             video2_path = os.path.abspath(video2_path).strip()
