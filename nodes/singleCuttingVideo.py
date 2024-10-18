@@ -19,7 +19,7 @@ class SingleCuttingVideo:
         }
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("cutting_video_single",)
+    RETURN_NAMES = ("video_complete_path",)
     FUNCTION = "single_cutting_video"
     OUTPUT_NODE = True
     CATEGORY = "🔥FFmpeg"
