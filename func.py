@@ -134,6 +134,8 @@ def set_file_name(video_path):
 
 def video_type():
     return ('.mp4', '.avi', '.mov', '.mkv','.rmvb','.wmv','.flv')
+def audio_type():
+    return ('.mp3', '.wav', '.aac', '.flac','.m4a','.wma','.ogg','.amr','.ape','.ac3','.aiff','.opus','.m4b','.caf','.dts')
 
 def validate_time_format(time_str):
     pattern = r'^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|\d{1,2})$'

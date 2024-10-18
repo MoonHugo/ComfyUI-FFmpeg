@@ -12,6 +12,7 @@ from .nodes.mergingVideoByPlenty import *
 from .nodes.stitchingVideo import *
 from .nodes.multiCuttingVideo import *
 from .nodes.singleCuttingVideo import *
+from .nodes.addAudio import *
 
 NODE_CLASS_MAPPINGS = {
     "Video2Frames": Video2Frames,
@@ -28,6 +29,7 @@ NODE_CLASS_MAPPINGS = {
     "StitchingVideo": StitchingVideo,
     "MultiCuttingVideo": MultiCuttingVideo,
     "SingleCuttingVideo": SingleCuttingVideo,
+    "AddAudio": AddAudio,
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
@@ -46,4 +48,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "StitchingVideo": "🔥StitchingVideo",
     "MultiCuttingVideo": "🔥MultiCuttingVideo",
     "SingleCuttingVideo": "🔥SingleCuttingVideo",
+    "AddAudio": "🔥AddAudio",
 }

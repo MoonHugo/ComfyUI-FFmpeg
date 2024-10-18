@@ -4,8 +4,6 @@ import torch
 import time
 from ..func import get_video_files,set_file_name
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
 class MergingVideoByPlenty:
     def __init__(self):
         pass

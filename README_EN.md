@@ -36,9 +36,9 @@ Install through ComfyUI-Manager by searching for 'ComfyUI-BiRefNet-Hugo' and ins
 ![](./assets/1.png)
 
 ###### Parameter Description
-**video_path**: The local video path, e.g.：`C:\Users\Desktop\222.mp4`<br>
-**output_path**: The path to save the output images, e.g.：`C:\Users\Desktop\output`<br>
-**frames_max_width**: This parameter can be used to resize the video. The default value is 0, which means the video will not be resized. If frames_max_width is larger than the actual width of the video, the video will not be enlarged and will retain its original width. If frames_max_width is smaller than the actual width of the video, the video will be scaled down.
+**video_path**: the local video path, e.g.：`C:\Users\Desktop\222.mp4`<br>
+**output_path**: the path to save the output images, e.g.：`C:\Users\Desktop\output`<br>
+**frames_max_width**: this parameter can be used to resize the video. The default value is 0, which means the video will not be resized. If frames_max_width is larger than the actual width of the video, the video will not be enlarged and will retain its original width. If frames_max_width is smaller than the actual width of the video, the video will be scaled down.
 
 ___
 
@@ -88,7 +88,7 @@ ___
 ###### Parameter Description
 **video_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
 **output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
-**flip_type**: Flip type, e.g. `horizontal` horizontal flip, `vertical` vertical flip, `both` horizontal plus vertical flip<br>
+**flip_type**: flip type, e.g. `horizontal` horizontal flip, `vertical` vertical flip, `both` horizontal plus vertical flip<br>
 
 ___
 
@@ -99,7 +99,7 @@ ___
 ###### Parameter Description
 **video_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
 **output_path**: audio save path,e.g.:`C:\Users\Desktop\output`<br>
-**audio_format**: Save audio formats, including **.m4a** , **.mp3** , **.wav** , **.aac** , **.flac** , **.wma** , **.ogg** , **.ac3** , **.amr** , **.aiff** , **.opus** , **.m4b** , **.caf** , **.dts** etc. <br>
+**audio_format**: save audio formats, including **.m4a** , **.mp3** , **.wav** , **.aac** , **.flac** , **.wma** , **.ogg** , **.ac3** , **.amr** , **.aiff** , **.opus** , **.m4b** , **.caf** , **.dts** etc. <br>
 
 ___
 
@@ -110,7 +110,7 @@ ___
 ###### Parameter Description
 **video1_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
 **video2_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
-**device**: There are two options: CPU and GPU,if you encounter an error while merging two videos using the CPU option, you can try using the GPU instead.<br>
+**device**: there are two options: CPU and GPU,if you encounter an error while merging two videos using the CPU option, you can try using the GPU instead.<br>
 **resolution_reference**: What is the size of the merged video? You can refer to either the first video or the second video, that is, video1 or video2.<br>
 **output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
 
@@ -133,9 +133,9 @@ ___
 ###### Parameter Description
 **video1_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
 **video2_path**: local video path,e.g.:`C:\Users\Desktop\222.mp4`<br>
-**device**: There are two options: CPU and GPU, if you encounter an error while stitching two videos using the CPU, you can try using the GPU instead.<br>
-**use_audio**: Which audio will be used in the stitched video? You can choose the audio from either the first video or the second video, that is, from video1 or video2.<br>
-**stitching_type**: The methods for stitching videos are divided into two types: horizontal stitching and vertical stitching.<br>
+**device**: there are two options: CPU and GPU, if you encounter an error while stitching two videos using the CPU, you can try using the GPU instead.<br>
+**use_audio**: which audio will be used in the stitched video? You can choose the audio from either the first video or the second video, that is, from video1 or video2.<br>
+**stitching_type**: the methods for stitching videos are divided into two types: horizontal stitching and vertical stitching.<br>
 **output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
 
 ___
@@ -147,7 +147,7 @@ ___
 ###### Parameter Description
 **video_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
 **output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
-**segment_time**: The length of each cut video is measured in seconds. It’s important to note that the video is cut based on keyframes, so the duration cannot be too short. Since there is no guarantee that each segment of the video will have a keyframe, the duration of each segment may not be the same, but it will be the closest possible.<br>
+**segment_time**: the length of each cut video is measured in seconds. It’s important to note that the video is cut based on keyframes, so the duration cannot be too short. Since there is no guarantee that each segment of the video will have a keyframe, the duration of each segment may not be the same, but it will be the closest possible.<br>
 
 ___
 
@@ -158,8 +158,22 @@ ___
 ###### Parameter Description
 **video_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
 **output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
-**start_time**: Set the start time for the cut; for example, setting it to 00:00:10 means cutting from the 10th second of the video.<br>
-**end_time**: Set the end time for the cut; for example, setting it to 00:05:00 means cutting until the 5th minute of the video.<br>
+**start_time**: set the start time for the cut; for example, setting it to 00:00:10 means cutting from the 10th second of the video.<br>
+**end_time**: set the end time for the cut; for example, setting it to 00:05:00 means cutting until the 5th minute of the video.<br>
+___
+
+##### AddAudio Node: The purpose is to add audio to the video.<br>
+
+![](./assets/12.png)
+
+###### Parameter Description
+**video_path**: local video path,e.g.:`C:\Users\Desktop\111.mp4`<br>
+**audio_from**: the audio source can be from an audio file or from a video file, that is, audio_file or video_file.<br>
+**file_path**: if audio_from is set to audio_file, then enter the path of an audio file here,if audio_from is set to video_file, then enter the path of a video file here, for example: `C:\Users\Desktop\111.mp3` or `C:\Users\Desktop\111.mp4`<br>
+**delay_play**: the audio delay playback time is measured in seconds, with a default value of 0.<br>
+**output_path**: video save path,e.g.:`C:\Users\Desktop\output`<br>
+
+___
 
 ## Social Account Homepage
 - Bilibili：[My BILIBILI Homepage](https://space.bilibili.com/1303099255)
