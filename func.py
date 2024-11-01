@@ -8,6 +8,7 @@ import os
 import shutil
 import time
 import glob
+from itertools import islice
 from concurrent.futures import ThreadPoolExecutor,as_completed
 
 def copy_image(image_path, destination_directory):
@@ -48,22 +49,36 @@ def copy_images_to_directory(image_paths, destination_directory):
     # 返回按原始顺序排列的新路径
     return [path for path in copied_paths if path is not None]
 
-
 def get_image_paths_from_directory(directory, start_index, length):
-    # 获取目录下所有文件，并按照文件名排序
-    files = sorted(os.listdir(directory))
-    
-    # 过滤掉非图片文件（这里只检查常见图片格式）
     image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff'}
-    image_files = [f for f in files if os.path.splitext(f)[1].lower() in image_extensions]
     
-    # 获取从start_index开始的length个图片路径
-    selected_images = image_files[start_index:start_index + length]
+    # 创建排序后的文件生成器，直接在生成器中过滤
+    def image_generator():
+        for filename in sorted(os.listdir(directory)):
+            if os.path.splitext(filename)[1].lower() in image_extensions:
+                yield os.path.join(directory, filename)
+
+    # 使用islice获取所需的图像路径
+    selected_images = islice(image_generator(), start_index, start_index + length)
     
-    # 返回完整路径列表
-    image_paths = [os.path.join(directory, image_file) for image_file in selected_images]
+    return list(selected_images)
+
+
+# def get_image_paths_from_directory(directory, start_index, length):
+#     # 获取目录下所有文件，并按照文件名排序
+#     files = sorted(os.listdir(directory))
     
-    return image_paths
+#     # 过滤掉非图片文件（这里只检查常见图片格式）
+#     image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff'}
+#     image_files = [f for f in files if os.path.splitext(f)[1].lower() in image_extensions]
+    
+#     # 获取从start_index开始的length个图片路径
+#     selected_images = image_files[start_index:start_index + length]
+    
+#     # 返回完整路径列表
+#     image_paths = [os.path.join(directory, image_file) for image_file in selected_images]
+    
+#     return image_paths
 
 def generate_template_string(filename):
     match = re.search(r'\d+', filename)
@@ -149,3 +164,6 @@ def get_video_files(directory):
     # 排序文件名
     video_files.sort()
     return video_files
+
+def save_image(image, path):
+    tensor2pil(image).save(path)
