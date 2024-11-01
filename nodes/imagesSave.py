@@ -34,6 +34,8 @@ class ImagesSave:
             
             count = 0
             global file_name_num_start
+            if len(os.listdir(output_path)) == 0:
+                file_name_num_start = 0
             with ThreadPoolExecutor() as executor:
                 futures = []
                 for image in images:
