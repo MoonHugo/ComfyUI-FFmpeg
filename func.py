@@ -5,11 +5,13 @@ import subprocess
 import json
 import re
 import os
+import gc
 import shutil
 import time
 import glob
 from itertools import islice
 from concurrent.futures import ThreadPoolExecutor,as_completed
+from comfy.model_management import unload_all_models, soft_empty_cache
 
 def copy_image(image_path, destination_directory):
     try:
@@ -167,3 +169,8 @@ def get_video_files(directory):
 
 def save_image(image, path):
     tensor2pil(image).save(path)
+    
+def clear_memory():
+    gc.collect()
+    unload_all_models()
+    soft_empty_cache()

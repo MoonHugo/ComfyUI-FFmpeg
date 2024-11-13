@@ -3,6 +3,7 @@ from PIL import ImageOps
 import comfy
 from PIL import Image
 import numpy as np
+from ..func import clear_memory
 import gc
 
 class AnyType(str):
@@ -64,6 +65,6 @@ class ImagePath2Tensor:
         result = (image1, length)
         del images
         del image1
-        torch.cuda.empty_cache()
-        gc.collect()
+        clear_memory()
+        
         return result

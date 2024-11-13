@@ -2,8 +2,7 @@ import os
 import torch
 import gc
 from concurrent.futures import ThreadPoolExecutor
-from ..func import save_image
-
+from ..func import save_image,clear_memory
 file_name_num_start = 0
 
 class ImagesSave:
@@ -35,7 +34,7 @@ class ImagesSave:
             count = 0
             global file_name_num_start
             if len(os.listdir(output_path)) == 0:
-                file_name_num_start = 0
+                file_name_num_start = 0  # 要保证图片的名称的数字从0开始，否则合并视频时会报错
             with ThreadPoolExecutor() as executor:
                 futures = []
                 for image in images:
@@ -46,8 +45,8 @@ class ImagesSave:
                 for future in futures:
                     future.result()  # 确保所有任务完成
             del images
-            torch.cuda.empty_cache()
-            gc.collect()
+            clear_memory()
+            
             return (count,)
         except Exception as e:
             raise ValueError(e)
