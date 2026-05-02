@@ -25,7 +25,6 @@ def get_xfade_transitions():
         
         # 命令输出在stderr中
         output = result.stdout if result.stdout else result.stderr
-        print(output)
         # 使用正则表达式匹配所有transition行
         pattern = r'^\s*(\w+)\s+-?\d+\b'
         data = output.split('\n')
