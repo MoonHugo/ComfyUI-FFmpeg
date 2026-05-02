@@ -63,12 +63,12 @@ class PipVideo:
             #文件名根据年月日时分秒来命名
             output_path = os.path.join(output_path, final_output)
 
-            use_cuvid = ""
-            use_encoder = "-c:v libx264" #默认用CPU编码
+            use_cuvid = []
+            use_encoder = ['-c:v', 'libx264'] #默认用CPU编码
 
             if device == "cuda":
-                use_cuvid = "-hwaccel cuda"
-                use_encoder = "-c:v h264_nvenc"
+                use_cuvid = ['-hwaccel', 'cuda']
+                use_encoder = ['-c:v', 'h264_nvenc']
 
             video_info = getVideoInfo(video1_path)
             video_info1 = getVideoInfo(video2_path)
@@ -131,22 +131,40 @@ class PipVideo:
                 chromakey="null"
 
             
+            filter_complex = (
+                f'[0:v]fps={fps},setpts=PTS-STARTPTS[bg];'
+                f'[1:v]fps={fps},setpts=PTS-STARTPTS[fg];'
+                f'[bg]{scale_and_crop_data}[bg_out];'
+                f'[fg]{chromakey}[fgd];'
+                f'[fgd]scale={video2_width}/{pip_fg_zoom}:-1,setsar=1[fg_out];'
+                f'[bg_out][fg_out]overlay={align_position}[out];'
+                f'[out]{final_out}[final_out]'
+            )
+
+            command = ['ffmpeg', '-y']
+            command.extend(use_cuvid)
+            command.extend(['-stream_loop', '-1', '-i', video1_path])
+            command.extend(['-stream_loop', '-1', '-i', video2_path])
+            command.extend(['-filter_complex', filter_complex])
+            command.extend(['-map', '[final_out]'])
             if video1_audio or video2_audio:
                 #-map 1:a 指定使用第二个视频的音频流
-                command = fr'ffmpeg "-y" {use_cuvid} -stream_loop -1 -i "{video1_path}" -stream_loop -1 -i "{video2_path}" -filter_complex "[0:v]fps={fps},setpts=PTS-STARTPTS[bg];[1:v]fps={fps},setpts=PTS-STARTPTS[fg];[bg]{scale_and_crop_data}[bg_out];[fg]{chromakey}[fgd];[fgd]scale={video2_width}/{pip_fg_zoom}:-1,setsar=1[fg_out];[bg_out][fg_out]overlay={align_position}[out];[out]{final_out}[final_out]" -map "[final_out]" -map {use_audio_index}:a? {use_encoder} -c:a aac -t {duration_1} "{output_path}"'
-            else:
-                command = fr'ffmpeg "-y" {use_cuvid} -stream_loop -1 -i "{video1_path}" -stream_loop -1 -i "{video2_path}" -filter_complex "[0:v]fps={fps},setpts=PTS-STARTPTS[bg];[1:v]fps={fps},setpts=PTS-STARTPTS[fg];[bg]{scale_and_crop_data}[bg_out];[fg]{chromakey}[fgd];[fgd]scale={video2_width}/{pip_fg_zoom}:-1,setsar=1[fg_out];[bg_out][fg_out]overlay={align_position}[out];[out]{final_out}[final_out]" -map "[final_out]" -t {duration_1} "{output_path}"'
+                command.extend(['-map', f'{use_audio_index}:a?'])
+            command.extend(use_encoder)
+            if video1_audio or video2_audio:
+                command.extend(['-c:a', 'aac'])
+            command.extend(['-t', str(duration_1), output_path])
                 
             print(f">>>{command}")
 
             # 执行命令并检查错误
-            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             #print("command result",result.returncode)
 
             # 检查返回码
             if result.returncode != 0:
                 # 如果有错误，输出错误信息
-                print(f"Error: {result.stderr.decode('utf-8')}")
+                print(f"Error: {result.stderr}")
                 if device == "cuda":
                     print(f"***当前运算模式*[{device}]*************看下换成CPU重新执行，是否解决因编码问题的报错！********") 
                     self.pip_video(video1_path, video2_path,"cpu",use_audio,use_duration, align_type,pip_fg_zoom, os.path.dirname(output_path),scale_and_crop,fps,is_chromakey)

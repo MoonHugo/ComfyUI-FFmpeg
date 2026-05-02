@@ -147,9 +147,9 @@ def getVideoInfo(video_path):
             'stream=avg_frame_rate,duration,width,height', '-of', 'json', video_path
         ]
     # 运行ffprobe命令
-    result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
     # 将输出转化为字符串
-    output = result.stdout.decode('utf-8').strip()
+    output = result.stdout.strip()
     print(output)
     data = json.loads(output)
     # 查找视频流信息
@@ -188,8 +188,8 @@ def has_audio(video_path):
         video_path
     ]
     
-    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    return result.stdout.decode().strip() == 'audio'
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
+    return result.stdout.strip() == 'audio'
 
 def set_file_name(video_path):
     file_name = os.path.basename(video_path)

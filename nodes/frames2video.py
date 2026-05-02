@@ -125,11 +125,11 @@ class Frames2Video:
                         str(output_path)
                     ]
             # 执行ffmpeg命令
-            result = subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             if result.returncode != 0:
                 # 如果有错误，输出错误信息
-                 print(f"Error: {result.stderr.decode('utf-8')}")
-                 raise ValueError(f"Error: {result.stderr.decode('utf-8')}")
+                 print(f"Error: {result.stderr}")
+                 raise ValueError(f"Error: {result.stderr}")
             else:
                 # 输出标准输出信息
                 print(result.stdout)

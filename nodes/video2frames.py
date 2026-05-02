@@ -58,9 +58,9 @@ class Video2Frames:
             ]
 
             # 运行ffprobe命令
-            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             # 将输出转化为字符串
-            output = result.stdout.decode('utf-8').strip()
+            output = result.stdout.strip()
             print(output)
             data = json.loads(output)
             # 查找视频流信息
@@ -111,12 +111,12 @@ class Video2Frames:
                 os.path.join(frame_path, 'frame_%08d.png')  # 输出帧路径
             ]
             # 执行命令并检查错误
-            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             # 检查返回码
             if result.returncode != 0:
                 # 如果有错误，输出错误信息
-                 print(f"Error: {result.stderr.decode('utf-8')}")
-                 raise ValueError(f"Error: {result.stderr.decode('utf-8')}")
+                 print(f"Error: {result.stderr}")
+                 raise ValueError(f"Error: {result.stderr}")
             else:
                 # 输出标准输出信息
                 print(result.stdout)

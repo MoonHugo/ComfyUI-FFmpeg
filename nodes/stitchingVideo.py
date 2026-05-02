@@ -60,12 +60,12 @@ class StitchingVideo:
             output_path = os.path.join(output_path, final_output)
             
             #CPU默认参数：
-            use_cuvid = ""
-            use_encoder = "-c:v libx264" #默认用CPU编码
+            use_cuvid = []
+            use_encoder = ['-c:v', 'libx264'] #默认用CPU编码
 
             if device == "cuda":
-                use_cuvid = "-hwaccel cuda"
-                use_encoder = "-c:v h264_nvenc"
+                use_cuvid = ['-hwaccel', 'cuda']
+                use_encoder = ['-c:v', 'h264_nvenc']
             
             video_info = getVideoInfo(video1_path)
             video_info1 = getVideoInfo(video2_path)
@@ -93,15 +93,25 @@ class StitchingVideo:
             }.get(stitching_type, f'{width}:-1')
             
             print(f">>loop_count:{loop_count}")
+            filter_complex = (
+                f'[1:v]scale={scale}[vid2];'
+                f'[0:v][vid2]{tack_type}=inputs=2[v]'
+            )
+            command = ['ffmpeg']
+            command.extend(use_cuvid)
+            command.extend(['-i', video1_path, '-i', video2_path])
+            command.extend(['-filter_complex', filter_complex])
+            command.extend(['-map', '[v]'])
             if video1_audio or video2_audio:
-                #-map 1:a 指定使用第二个视频的音频流
-                command = f'ffmpeg {use_cuvid} -i {video1_path} -i {video2_path} -filter_complex "[1:v]scale={scale}[vid2];[0:v][vid2]{tack_type}=inputs=2[v]" -map "[v]" -map {use_audio}:a? {use_encoder} -c:a aac -strict experimental {output_path}'
-            else:
-                command = f'ffmpeg {use_cuvid} -i {video1_path} -i {video2_path} -filter_complex "[1:v]scale={scale}[vid2];[0:v][vid2]{tack_type}=inputs=2[v]" -map "[v]" {use_encoder}  {output_path}'
+                command.extend(['-map', f'{use_audio}:a?'])
+            command.extend(use_encoder)
+            if video1_audio or video2_audio:
+                command.extend(['-c:a', 'aac', '-strict', 'experimental'])
+            command.append(output_path)
             
 
             # 执行命令并检查错误
-            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             
             # 构建滤镜链
             if scale_and_crop == "yes":
@@ -113,19 +123,40 @@ class StitchingVideo:
                 
                 if stitching_type == "vertical":
                     # 修改后的垂直处理：缩放并裁剪至540x960，确保尺寸足够
-                    command = f'ffmpeg -y -i "{output_path}" -filter_complex "[0:v]scale=w={width}:h={height}:force_original_aspect_ratio=increase[scaled];[scaled]crop={width}:{height}[out]" -map "[out]" -map 0:a {use_encoder} -c:a aac "{crop_video_path}"'
+                    filter_complex = (
+                        f'[0:v]scale=w={width}:h={height}:force_original_aspect_ratio=increase[scaled];'
+                        f'[scaled]crop={width}:{height}[out]'
+                    )
+                    command = ['ffmpeg', '-y', '-i', output_path]
+                    command.extend(['-filter_complex', filter_complex])
+                    command.extend(['-map', '[out]', '-map', '0:a'])
+                    command.extend(use_encoder)
+                    command.extend(['-c:a', 'aac', crop_video_path])
                 else:
                     # 水平模式保持原逻辑
-                    command = f'ffmpeg -y -i "{output_path}" -filter_complex "[0:v]split=2[bg][fg];[bg]scale={width}:-1,setsar=1[scaled_bg];[scaled_bg]gblur=sigma=10[blurred];[blurred]scale={width}:{height}:force_original_aspect_ratio=disable[bg_out];[fg]scale={width}:-1,setsar=1[fg_out];[bg_out][fg_out]overlay=(W-w)/2:(H-h)/2[out];[out]scale={width}:{height}:force_original_aspect_ratio=disable,setsar=1[final_out]" -map "[final_out]" -map 0:a {use_encoder} -c:a aac "{crop_video_path}"'
+                    filter_complex = (
+                        f'[0:v]split=2[bg][fg];'
+                        f'[bg]scale={width}:-1,setsar=1[scaled_bg];'
+                        f'[scaled_bg]gblur=sigma=10[blurred];'
+                        f'[blurred]scale={width}:{height}:force_original_aspect_ratio=disable[bg_out];'
+                        f'[fg]scale={width}:-1,setsar=1[fg_out];'
+                        f'[bg_out][fg_out]overlay=(W-w)/2:(H-h)/2[out];'
+                        f'[out]scale={width}:{height}:force_original_aspect_ratio=disable,setsar=1[final_out]'
+                    )
+                    command = ['ffmpeg', '-y', '-i', output_path]
+                    command.extend(['-filter_complex', filter_complex])
+                    command.extend(['-map', '[final_out]', '-map', '0:a'])
+                    command.extend(use_encoder)
+                    command.extend(['-c:a', 'aac', crop_video_path])
                 
                 print(f">>FFmpeg 缩放与裁剪命令:: {command}")
-                result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+                result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
                 output_path = crop_video_path
             
             # 检查返回码
             if result.returncode != 0:
                 # 如果有错误，输出错误信息
-                print(f"Error: {result.stderr.decode('utf-8')}")
+                print(f"Error: {result.stderr}")
             else:
                 # 输出标准输出信息
                 print(f">>FFmpeg 执行完毕！Completed!\t stdout: {result.stdout}")

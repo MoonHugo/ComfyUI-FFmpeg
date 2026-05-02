@@ -41,9 +41,10 @@ class MergingVideoByPlenty:
             
             filelist_file_name = os.path.join(output_path,'filelist.txt')
             
-            with open(filelist_file_name, 'w') as f:
+            with open(filelist_file_name, 'w', encoding='utf-8') as f:
                 for video in video_files:
-                    f.write(f"file '{video}'\n")
+                    escaped = video.replace("'", "'\\''")
+                    f.write(f"file '{escaped}'\n")
             
             file_name = set_file_name(video_files[0])
             output_path = os.path.join(output_path, file_name)
@@ -54,12 +55,12 @@ class MergingVideoByPlenty:
             ]
             
             # 执行命令并检查错误
-            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             # 检查返回码
             if result.returncode != 0:
                 # 如果有错误，输出错误信息
-                 print(f"Error: {result.stderr.decode('utf-8')}")
-                 raise ValueError(f"Error: {result.stderr.decode('utf-8')}")
+                 print(f"Error: {result.stderr}")
+                 raise ValueError(f"Error: {result.stderr}")
             else:
                 # 输出标准输出信息
                 print(result.stdout)

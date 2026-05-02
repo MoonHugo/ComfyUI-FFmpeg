@@ -62,13 +62,13 @@ class AddImgWatermark:
                 '-filter_complex',f"[1:v]scale={watermark_img_width}:{watermark_img_height}[wm];[0:v][wm]overlay=x={position_x}:y={position_y}:format=auto",
                 output_path,
             ]
-            result = subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             #os.remove(image_save_path) # 删除临时水印图片
             # 检查返回码
             if result.returncode != 0:
                 # 如果有错误，输出错误信息
-                 print(f"Error: {result.stderr.decode('utf-8')}")
-                 raise ValueError(f"Error: {result.stderr.decode('utf-8')}")
+                 print(f"Error: {result.stderr}")
+                 raise ValueError(f"Error: {result.stderr}")
             else:
                 # 输出标准输出信息
                 print(result.stdout)

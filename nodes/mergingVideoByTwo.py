@@ -65,53 +65,81 @@ class MergingVideoByTwo:
             width = video_info['width']
             height = video_info['height']
             
-            use_cuvid = ""
-            use_encoder = "-c:v libx264" #默认用CPU编码
+            use_cuvid = []
+            use_encoder = ['-c:v', 'libx264'] #默认用CPU编码
 
             if device == "cuda":
-                use_cuvid = "-hwaccel cuda"
-                use_encoder = "-c:v h264_nvenc"
+                use_cuvid = ['-hwaccel', 'cuda']
+                use_encoder = ['-c:v', 'h264_nvenc']
 
             if video1_audio and video2_audio: #两个视频都有音频
-                command = f'ffmpeg {use_cuvid} -i {video1_path} -i {video2_path} -filter_complex \
-            "[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0]; \
-            [1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1]; \
-            [v0][v1]concat=n=2:v=1:a=0[outv]; \
-            [0:a][1:a]concat=n=2:v=0:a=1[outa]" \
-            -map "[outv]" -map "[outa]" -r 30 {use_encoder} -c:a aac -ar 44100 -b:a 128k {output_path}'
+                filter_complex = (
+                    f'[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0];'
+                    f'[1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1];'
+                    f'[v0][v1]concat=n=2:v=1:a=0[outv];'
+                    f'[0:a][1:a]concat=n=2:v=0:a=1[outa]'
+                )
+                command = ['ffmpeg']
+                command.extend(use_cuvid)
+                command.extend(['-i', video1_path, '-i', video2_path])
+                command.extend(['-filter_complex', filter_complex])
+                command.extend(['-map', '[outv]', '-map', '[outa]', '-r', '30'])
+                command.extend(use_encoder)
+                command.extend(['-c:a', 'aac', '-ar', '44100', '-b:a', '128k', output_path])
             elif video1_audio and not video2_audio: #第一个视频有音频，第二个没有
-                command = f'ffmpeg {use_cuvid} -i {video1_path} -i {video2_path} -filter_complex \
-            "[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0]; \
-            [1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1]; \
-            [v0][v1]concat=n=2:v=1:a=0[outv]" \
-            -map "[outv]" -map "0:a" -r 30 {use_encoder} -c:a aac -ar 44100 -b:a 128k {output_path}'
+                filter_complex = (
+                    f'[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0];'
+                    f'[1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1];'
+                    f'[v0][v1]concat=n=2:v=1:a=0[outv]'
+                )
+                command = ['ffmpeg']
+                command.extend(use_cuvid)
+                command.extend(['-i', video1_path, '-i', video2_path])
+                command.extend(['-filter_complex', filter_complex])
+                command.extend(['-map', '[outv]', '-map', '0:a', '-r', '30'])
+                command.extend(use_encoder)
+                command.extend(['-c:a', 'aac', '-ar', '44100', '-b:a', '128k', output_path])
             elif not video1_audio and video2_audio: #第一个视频没有音频，第二个有
                 video_info = getVideoInfo(video1_path)
                 duration = video_info['duration']
                 delay_time = int(duration * 1000)  # 转换为毫秒
-                
-                command = f'ffmpeg {use_cuvid} -i {video1_path} -i {video2_path} -filter_complex \
-            "[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0]; \
-            [1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1]; \
-            [v0][v1]concat=n=2:v=1:a=0[outv]; \
-            [1:a]adelay={delay_time}|{delay_time}[a1]; \
-            [a1]concat=n=1:v=0:a=1[outa]" \
-            -map "[outv]" -map "[outa]" -r 30 {use_encoder} -c:a aac -ar 44100 -b:a 128k {output_path}'
+
+                filter_complex = (
+                    f'[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0];'
+                    f'[1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1];'
+                    f'[v0][v1]concat=n=2:v=1:a=0[outv];'
+                    f'[1:a]adelay={delay_time}|{delay_time}[a1];'
+                    f'[a1]concat=n=1:v=0:a=1[outa]'
+                )
+                command = ['ffmpeg']
+                command.extend(use_cuvid)
+                command.extend(['-i', video1_path, '-i', video2_path])
+                command.extend(['-filter_complex', filter_complex])
+                command.extend(['-map', '[outv]', '-map', '[outa]', '-r', '30'])
+                command.extend(use_encoder)
+                command.extend(['-c:a', 'aac', '-ar', '44100', '-b:a', '128k', output_path])
             else: #两个视频都没有音频
-                command = f'ffmpeg {use_cuvid} -i {video1_path} -i {video2_path} -filter_complex \
-            "[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0]; \
-            [1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1]; \
-            [v0][v1]concat=n=2:v=1:a=0[outv]" \
-            -map "[outv]" -r 30 {use_encoder} -an {output_path}' 
+                filter_complex = (
+                    f'[0:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v0];'
+                    f'[1:v]scale={width}:{height},setsar=1,setpts=PTS-STARTPTS[v1];'
+                    f'[v0][v1]concat=n=2:v=1:a=0[outv]'
+                )
+                command = ['ffmpeg']
+                command.extend(use_cuvid)
+                command.extend(['-i', video1_path, '-i', video2_path])
+                command.extend(['-filter_complex', filter_complex])
+                command.extend(['-map', '[outv]', '-r', '30'])
+                command.extend(use_encoder)
+                command.extend(['-an', output_path]) 
             
             
             # 执行命令并检查错误
-            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            result = subprocess.run(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
             # 检查返回码
             if result.returncode != 0:
                 # 如果有错误，输出错误信息
-                 print(f"Error: {result.stderr.decode('utf-8')}")
-                 raise ValueError(f"Error: {result.stderr.decode('utf-8')}")
+                 print(f"Error: {result.stderr}")
+                 raise ValueError(f"Error: {result.stderr}")
             else:
                 # 输出标准输出信息
                 print(result.stdout)
