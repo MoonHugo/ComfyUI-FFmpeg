@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-ffmpeg"
+description = "Encapsulate the commonly used functions of FFmpeg into ComfyUI nodes, making it convenient for users to perform various video processing tasks within ComfyUI."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["pathlib"]
+
+[project.urls]
+Repository = "https://github.com/MoonHugo/ComfyUI-FFmpeg"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-FFmpeg"
+Icon = ""
